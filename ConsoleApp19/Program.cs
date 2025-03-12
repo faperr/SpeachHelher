@@ -150,8 +150,7 @@ class Program
             if (SystemChoice == "1")
             {
                 //Vosk
-                // Путь к модели для распознавания речи
-                string modelPath = @"C:\Users\gvyu3\OneDrive\Рабочий стол\vosk-model-small-ru-0.22"; // Путь к модели для русского языка
+                string modelPath = @"C:\Users\gvyu3\OneDrive\Рабочий стол\vosk-model-small-ru-0.22";
 
                 if (!System.IO.Directory.Exists(modelPath))
                 {
@@ -168,7 +167,6 @@ class Program
                     WaveFormat = new WaveFormat(16000, 1)
                 };
 
-                // Слушаем и распознаем команды
                 waveIn.DataAvailable += (sender, e) =>
                 {
                     if (recognizer.AcceptWaveform(e.Buffer, e.BytesRecorded))
@@ -179,7 +177,6 @@ class Program
 
                         Console.WriteLine($"🎤 Распознанный текст: {text}");
 
-                        // Вызов ExecuteCommand
                         ExecuteCommand(text, translations, lang);
                     }
                 };
@@ -187,8 +184,7 @@ class Program
                 waveIn.StartRecording();
                 Console.WriteLine("🎤 Говорите команду...");
 
-                // Ожидание завершения записи голосовой команды
-                await Task.Delay(-1);  // Ожидаем, пока программа не будет завершена вручную
+                await Task.Delay(-1);
 
                 waveIn.StopRecording();
                 recognizer.Dispose();
@@ -408,18 +404,16 @@ class Program
                         {
                             DateTime currentTime = DateTime.Now;
 
-                            Console.Clear(); // Очистка экрана для обновления времени
+                            Console.Clear();
                             Console.WriteLine("Текущее время: " + currentTime.ToString("HH:mm:ss"));
                             Console.WriteLine("Полная дата и время: " + currentTime.ToString("yyyy-MM-dd HH:mm:ss"));
                             Console.WriteLine("Нажмите 'q' для выхода...");
 
-                            // Пауза между обновлениями времени (1 секунда)
-                            Thread.Sleep(1000); // обновление каждый 1 секунду
+                            Thread.Sleep(1000);
 
-                            // Проверка, не был ли введен 'q' для выхода из цикла
                             if (Console.KeyAvailable)
                             {
-                                var key = Console.ReadKey(intercept: true); // Чтение ввода, но не вывод на экран
+                                var key = Console.ReadKey(intercept: true); 
                                 if (key.Key == ConsoleKey.Q)
                                 {
                                     break; // Выход из цикла при нажатии 'q'
@@ -497,7 +491,7 @@ class Program
                     //работа с txt файлами
                     else if (Command == "13" || Command == "Работа с txt")
                     {
-                        while (true) // Цикл продолжится, пока не будет введен правильный путь или команда "выход"
+                        while (true)
                         {
                             Console.WriteLine("Укажите путь до txt файла (или введите 'выход' для отмены):");
                             string pathToFile = Console.ReadLine();
@@ -505,7 +499,7 @@ class Program
                             if (pathToFile.ToLower() == "выход")
                             {
                                 Console.Clear();
-                                break; // Прерываем цикл, если пользователь вводит "выход"
+                                break;
                             }
 
                             if (Path.GetExtension(pathToFile) == ".txt")
@@ -513,15 +507,14 @@ class Program
                                 if (!File.Exists(pathToFile))
                                 {
                                     Console.WriteLine("Ошибка: Файл не найден. Проверьте путь и попробуйте снова.");
-                                    continue; // Продолжаем запрашивать путь
+                                    continue;
                                 }
 
                                 commandExecuted = false;
 
-                                // Переходим к работе с файлом
                                 while (true)
                                 {
-                                    Console.Clear(); // Очистка консоли перед отображением меню
+                                    Console.Clear();
                                     Console.WriteLine("\nДоступные команды:");
                                     Console.WriteLine("1. Добавление (или введите '1')");
                                     Console.WriteLine("2. Удаление (или введите '2')");
@@ -623,7 +616,7 @@ class Program
                                     else if (textVarLower == "выход" || textVarLower == "5")
                                     {
                                         Console.Clear();
-                                        break; // Выход из меню редактирования файла
+                                        break; 
                                     }
                                     else
                                     {
@@ -631,7 +624,7 @@ class Program
                                     }
                                 }
 
-                                break; // Закрываем цикл ввода пути, если путь был корректным и мы начали работу с файлом
+                                break;
                             }
                             else
                             {
@@ -737,7 +730,6 @@ class Program
                                 string choice = Console.ReadLine();
                                 if (choice == "1")
                                 {
-                                    // Логика для удаления любого файла
                                     Console.Write("Введите путь к файлу или папке: ");
                                     string path = Console.ReadLine();
 
@@ -775,9 +767,8 @@ class Program
                                         Console.WriteLine("Файл или папка не найдены.");
                                     }
                                 }
-                                else if (choice == "2") // Удаление созданных файлов
+                                else if (choice == "2")
                                 {
-                                    // Чтение лог-файла с созданными файлами
                                     if (File.Exists(logFilePath))
                                     {
                                         var createdFiles = File.ReadAllLines(logFilePath).ToList();
@@ -800,7 +791,7 @@ class Program
                                             if (File.Exists(fileToDelete))
                                             {
                                                 File.Delete(fileToDelete);
-                                                // Удалить запись из лога
+
                                                 createdFiles.RemoveAt(fileNum - 1);
                                                 File.WriteAllLines(logFilePath, createdFiles);
                                                 Console.WriteLine("Файл удален.");
@@ -855,7 +846,7 @@ class Program
                                 continue;
                             }
 
-                            if (Password.ToLower() == "exit") // Возможность выхода
+                            if (Password.ToLower() == "exit")
                                 break;
 
                             string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -923,10 +914,10 @@ class Program
 
                                     if (Console.KeyAvailable)
                                     {
-                                        var key = Console.ReadKey(intercept: true); // Чтение ввода, но не вывод на экран
+                                        var key = Console.ReadKey(intercept: true);
                                         if (key.Key == ConsoleKey.Q)
                                         {
-                                            break; // Выход из цикла при нажатии 'q'
+                                            break;
                                         }
                                     }
                                 }
@@ -934,8 +925,8 @@ class Program
 
                             else if (MonitorRead == "2" || MonitorRead == "Очистить кэш")
                             {
-                                string tempPath = Path.GetTempPath();  // Локальный Temp текущего пользователя
-                                string winTempPath = @"C:\Windows\Temp"; // Системный Temp
+                                string tempPath = Path.GetTempPath();
+                                string winTempPath = @"C:\Windows\Temp";
 
                                 CleanTempFiles(tempPath);
                                 CleanTempFiles(winTempPath);
@@ -965,7 +956,7 @@ class Program
                                 UseShellExecute = true
                             });
 
-                            Thread.Sleep(5000); // Ждём загрузку браузера
+                            Thread.Sleep(5000);
 
                             while (true)
                             {
@@ -982,7 +973,7 @@ class Program
                                     SetForegroundWindow(browserHandle);
                                     Thread.Sleep(500);
 
-                                    ClickWindowCenter(browserHandle); // Кликаем в центр окна
+                                    ClickWindowCenter(browserHandle);
                                     Thread.Sleep(200);
 
                                     switch (input)
@@ -1035,7 +1026,6 @@ class Program
                     "Работа с txt"
                 };
 
-                    // Очищаем консоль, если команда не входит в список исключений
                     if (commandExecuted && !noClearCommands.Contains(Command))
                     {
                         Console.Clear();
@@ -1046,7 +1036,7 @@ class Program
         catch (Exception ex)
         {
             Console.WriteLine($"Ошибка: {ex.Message}");
-            Console.WriteLine($"StackTrace: {ex.StackTrace}"); // Вывод подробной информации о месте ошибки
+            Console.WriteLine($"StackTrace: {ex.StackTrace}");
         }
     }
     static void ExecuteCommand(string text, Dictionary<string, Dictionary<string, string>> translations, string lang)
@@ -1075,7 +1065,7 @@ class Program
             Console.WriteLine($"16. {translations[lang]["pc_info"]}");
         }
     }
-    //Используется для упрощения работы со звуком
+
     static void SetVolume(float volume)
     {
         if (volume < 0 || volume > 100)
