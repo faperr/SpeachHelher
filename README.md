@@ -198,7 +198,66 @@ namespace Demo
                     }
                     else if (role == "Пользователь")
                     {
+                        MessageBox.Show(
+                            "Вы вошли как пользователь.",
+                            "Пользователь",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+                    }
+                }
+                else
+                {
+                    // Увеличиваем количество неправильных попыток
+                    failedAttempts++;
 
+                    // Если попыток 5 или больше
+                    if (failedAttempts >= MaxAttempts)
+                    {
+                        MessageBox.Show(
+                            "Вы сделали слишком много неудачных попыток. Вы заблокированы.",
+                            "Блокировка",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+
+                        // Блокируем поля и кнопку
+                        textBox1.Enabled = false;
+                        textBox2.Enabled = false;
+                        button1.Enabled = false;
+
+                        return;
+                    }
+
+                    int remainingAttempts = MaxAttempts - failedAttempts;
+
+                    MessageBox.Show(
+                        "Вы ввели неверный логин или пароль. " +
+                        "Пожалуйста проверьте ещё раз введенные данные.\n\n" +
+                        "Осталось попыток: " + remainingAttempts,
+                        "Ошибка авторизации",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Ошибка подключения к базе данных:\n" + ex.Message,
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            finally
+            {
+                dataBase.CloseConnection();
+            }
+        }
+    }
+}
+```
 
 ## 5. Создание таблицы пользователей
 
