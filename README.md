@@ -198,3 +198,36 @@ namespace Demo
                     }
                     else if (role == "Пользователь")
                     {
+
+
+## 5. Создание таблицы пользователей
+
+```sql
+USE ProductionDB;
+GO
+
+CREATE TABLE Пользователи (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    Логин NVARCHAR(50) NOT NULL UNIQUE,
+    Пароль NVARCHAR(255) NOT NULL,
+    Роль NVARCHAR(20) NOT NULL,
+
+    CONSTRAINT CK_Роль CHECK (
+        Роль IN (N'Администратор', N'Пользователь')
+    )
+);
+GO
+```
+
+## 6. Добавление пользователей в базу данных
+
+```sql
+USE ProductionDB;
+GO
+
+INSERT INTO Пользователи (Логин, Пароль, Роль)
+VALUES
+(N'admin', N'admin123', N'Администратор'),
+(N'user', N'user123', N'Пользователь');
+GO
+```
